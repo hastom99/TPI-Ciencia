@@ -7,7 +7,7 @@ using namespace std;
 bool esEncuestaValida ( eph_h th, eph_i ti ) {
 	bool resp = false;
 	
-	// TODO
+	// HOLA SOY TOBIAS.
 	
 	return resp;
 }
