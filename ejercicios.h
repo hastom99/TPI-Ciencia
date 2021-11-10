@@ -36,7 +36,15 @@ vector < pair < int, float > > laCasaEstaQuedandoChica ( eph_h th, eph_i ti );
 bool creceElTeleworkingEnCiudadesGrandes ( eph_h t1h, eph_i t1i, eph_h t2h, eph_i t2i );
 int costoSubsidioMejora( eph_h th, eph_i ti, int monto );
 join_hi generarJoin( eph_h th, eph_i ti );
+
 void ordenarRegionYCODUSU ( eph_h & th, eph_i & ti );
+void insertRegion(eph_h & th, int i);
+void insertHogCodUsu(eph_h & th, int i);
+void swap(eph_h& th, int i, int j);
+void insertIndCodUsu(eph_i& ti,eph_h th, int i);
+int ordenHogar(int indCodUsu, eph_h th);
+void insertComponente(eph_h& ti, int i);
+
 vector < hogar > muestraHomogenea( eph_h & th, eph_i & ti );
 void corregirRegion( eph_h & th, eph_i ti );
 vector < int > histogramaDeAnillosConcentricos( eph_h th, eph_i ti, pair < int, int > centro, vector < int > distancias );
