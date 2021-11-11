@@ -47,13 +47,17 @@ enum ItemInd {
 #define FILAS_INDIVIDUO 11
 
 #define GBA 1
-#define PAMPEANA 5
+#define PAMPEANA 43
 #define CANTIDAD_DE_REGIONES 6
 
 #define CASA 1
 
 #define OCUPADO 1
 #define EN_ESTE_HOGAR 6
+
+#define DELTA_HOGAR_HC 0.00001
+#define INVERSION_DELTA_HOGAR_HC 100000
+
 
 // DEFINICIONES DE TIPO
 

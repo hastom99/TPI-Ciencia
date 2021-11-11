@@ -9,7 +9,7 @@ bool esEncuestaValida ( eph_h th, eph_i ti ) {
 	
 	// TODO
 	
-	return resp;
+	return true;
 }
 
 // Implementacion Problema 2
@@ -24,14 +24,44 @@ vector < int > histHabitacional ( eph_h th, eph_i ti, int region ) {
 // Implementacion Problema 3
 vector< pair < int, float > > laCasaEstaQuedandoChica ( eph_h th, eph_i ti ) {
 
-    vector<pair<int,float>> resp = {make_pair(1,-1.0),
-                                        make_pair(40, -1.0),
-                                        make_pair(41, -1.0),
-                                        make_pair(42,-1.0),
-                                        make_pair(43,-1.0),
-                                        make_pair(44,-1.0)};
+    vector<pair<int,float>> resp = {make_pair(1,0),
+                                        make_pair(40, 0),
+                                        make_pair(41, 0),
+                                        make_pair(42,0),
+                                        make_pair(43,0),
+                                        make_pair(44,0)};
+    vector<pair<float,float>> parHogaresValidosYCriticos = {make_pair(0,0),
+                                    make_pair(0, 0),
+                                    make_pair(0, 0),
+                                    make_pair(0,0),
+                                    make_pair(0,0),
+                                    make_pair(0,0)};
 	// TODO
-	
+    int regionAnterior= -1;
+    int regionActual = 0;
+    int index = 0;
+    float hogaresValidos = 0;
+    float hogaresHC = 0;
+
+    for(int i = 0; i < th.size(); i++ ){
+        if (esUnHogarEnUnaCiudadMenor500(th[i])){
+            regionActual = th[i][REGION];
+            if (regionAnterior != regionActual){
+                index = obtenerIndexEnBaseALaRegion(regionActual,resp);
+                regionAnterior = regionActual;
+            }
+            parHogaresValidosYCriticos[index].first++;
+            if (esUnHogarHC(th[i],ti)){
+                parHogaresValidosYCriticos[index].second++;
+            }
+        }
+      }
+    for(int i = 0; i < resp.size(); i++){
+        hogaresValidos = parHogaresValidosYCriticos[i].first;
+        hogaresHC = parHogaresValidosYCriticos[i].second;
+        resp[i].second = hogaresHC/hogaresValidos;
+    }
+
   return resp;
 }
 
