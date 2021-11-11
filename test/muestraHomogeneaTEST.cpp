@@ -91,3 +91,22 @@ TEST(muestraHomogeneaTEST, dosSolucionesDe3) {
     bool esperado = res1 == propuesto || res2 == propuesto;
     EXPECT_EQ(true,esperado);
 }
+TEST(muestraHomogeneaTEST, cuatroSolucionesDeDos) {
+    vector <hogar> res = {};
+    eph_h th = {
+            {960,  2018, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1},
+            {4377, 2018, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1},
+            {200,  2018, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1},
+            {2354, 2018, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1},
+    };
+
+    eph_i ti = {{4377,  2018, 1, 1, 1, 1, 36, 1,  3, 15, 1}, // 30
+                {4377,  2018, 3, 1, 1, 1, 7,  1,  3, 15, 1},
+                {2354,  2018, 1, 1, 1, 2, 36, 1,  3, 20, 1}, // 20
+                {200,   2018, 2, 1, 1, 1, 36, 1,  3, 0, 1}, // 0
+                {960,   2018, 3, 1, 1, 2, 51, 1,  4, 0,  1}, // 0
+                {960,   2018, 2, 1, 1, 2, 51, 1,  4, 0,  1},
+                {960,   2018, 1, 1, 1, 2, 51, 1,  4, 0,  1}
+    };
+    EXPECT_EQ(res,muestraHomogenea(th,ti));
+}
