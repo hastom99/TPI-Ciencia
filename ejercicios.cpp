@@ -34,20 +34,23 @@ vector< pair < int, float > > laCasaEstaQuedandoChica ( eph_h th, eph_i ti ) {
 
 // Implementacion Problema 4
 bool creceElTeleworkingEnCiudadesGrandes ( eph_h t1h, eph_i t1i, eph_h t2h, eph_i t2i ) {
-	bool resp = false;
-	
-	// TODO
-	
-  return  resp;
+    bool resp = proporcionTeleworking(t2h,t2i) > proporcionTeleworking(t1h,t1i);
+    return  resp;
 }
 
 // Implementacion Problema 5
 int costoSubsidioMejora( eph_h th, eph_i ti, int monto ){
-	int resp = -1;
-	
-	// TODO
-	
-  return  resp;
+    int resp = 0;
+    int h = 0;
+    while (h < th.size()){
+        if (th[h][II7] == 1 && th[h][II2]<cantHabitantes(th[h],ti)-2){
+            resp = resp + monto;
+            h++;
+        } else {
+            h++;
+        }
+    }
+    return  resp;
 }
 
 // Implementacion Problema 6
@@ -84,20 +87,49 @@ void ordenarRegionYCODUSU (eph_h&  th, eph_i& ti) {
 
 // Implementacion Problema 8
 vector < hogar > muestraHomogenea( eph_h & th, eph_i & ti ){
-    hogar h = {};
-    vector < hogar > resp = {h};
-
-    // TODO
-
-    return  resp;
+    th = ordenadaPorIngresos(th,ti);
+    th = eliminarIngresosRepetidos(th,ti);
+    vector<hogar> muestraMaslarga = {};
+    int i = 0;
+    while (i<th.size()-1){
+        int j = i+1;
+        int diferenciaDeIngresos = 0;
+        while (j<th.size()){
+            diferenciaDeIngresos = ingresos(th[j],ti) - ingresos(th[i],ti);
+            vector<hogar> muestra = {th[i],th[j]};
+            int h = j+1;
+            while (h<th.size()){
+                if(ingresos(th[h],ti) - ingresos(muestra[muestra.size()-1],ti) == diferenciaDeIngresos){
+                    muestra.push_back(th[h]);
+                    h++;
+                } else {
+                    h++;
+                }
+            }
+            if (muestra.size()>muestraMaslarga.size()){
+                muestraMaslarga = muestra;
+            }
+            j++;
+        }
+        i++;
+    }
+    if (muestraMaslarga.size()<3){
+        muestraMaslarga = {};
+    }
+    return  muestraMaslarga;
 }
 
 // Implementacion Problema 9
 void corregirRegion( eph_h & th, eph_i ti ) {
-	
-	// TODO
-	
-	return;
+    int h = 0;
+    while (h < th.size()){
+        if (th[h][REGION] == GBA){
+            th[h][REGION] = PAMPEANA;
+            h++;
+        } else {
+            h++;
+        }
+    }
 }
 
 // Implementacion Problema 10

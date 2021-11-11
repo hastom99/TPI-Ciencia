@@ -181,6 +181,88 @@ bool esValida ( eph_h th, eph_i ti ){
                        valoresEnRangoI(ti) && valoresEnRangoH(th) );
     return res;
 }
+//Auxiliares Ejercicio 4 creceElTeleworkingEnCiudadesGrandes
+bool suHogarTieneEspaciosReservadosParaElTrabajo(individuo i, eph_h th){
+    bool result = false;
+    int k = 0;
+    while (k < th.size() && !result){
+        if (th[k][HOGCODUSU]==i[INDCODUSU] && th[k][II3] == 1) {
+            result = true;
+        } else {
+            k++;
+        }
+    }
+    return result;
+}
+
+bool trabajaEnSuVivienda(individuo i,eph_h th){
+    return (i[PP04G] == 6 && suHogarTieneEspaciosReservadosParaElTrabajo(i, th));
+}
+
+bool esDeCiudadGrande(individuo i,eph_h th){
+    int k = 0;
+    bool result = false;
+    while (k < th.size() && !result){
+        if (i[INDCODUSU]==th[k][INDCODUSU] && th[k][MAS_500] == 1){
+            result = true;
+        } else {
+            k++;
+        }
+    }
+    return result;
+}
+
+bool suHogarEsCasaODepartamento(individuo i,eph_h th){
+    int k = 0;
+    bool result = false;
+    while (k < th.size() && !result){
+        if (i[INDCODUSU]==th[k][INDCODUSU] && (th[k][IV1] == 1 || th[k][IV1] == 2)) {
+            result = true;
+        } else {
+            k++;
+        }
+    }
+    return result;
+}
+
+int cantDeIndividuosTrabajandoEnSuVivienda(eph_h th, eph_i ti){
+    int i = 0;
+    int result = 0;
+    while(i<ti.size()){
+        if (ti[i][ESTADO] == 1 && trabajaEnSuVivienda(ti[i],th) && esDeCiudadGrande(ti[i], th) && suHogarEsCasaODepartamento(ti[i], th)){
+            result++;
+            i++;
+        } else {
+            i++;
+        }
+    }
+    return result;
+}
+
+int cantDeIndividuosQueTrabajan(eph_h th, eph_i ti){
+    int i = 0;
+    int result = 0;
+    while (i < ti.size()) {
+        if (ti[i][ESTADO] == 1 && esDeCiudadGrande(ti[i], th) && suHogarEsCasaODepartamento(ti[i], th)) {
+            result++;
+            i++;
+        } else {
+            i++;
+        }
+    }
+    return result;
+}
+
+float proporcionTeleworking(eph_h th, eph_i ti){
+    float trabajandoEnVivienda = cantDeIndividuosTrabajandoEnSuVivienda(th,ti);
+    float trabajan = cantDeIndividuosQueTrabajan(th,ti);
+    float result = 0;
+    if (trabajan != 0) {
+        result = trabajandoEnVivienda/trabajan;
+    }
+    return result;
+}
+
 //Auxiliares Ejercicio 7 ordenarRegionYCODUSU.
 
 void insertRegion(eph_h& th, int i){
@@ -213,4 +295,55 @@ void insertComponente(eph_h& ti, int i){
     for (int j = i; j > 0 && ti[j][INDCODUSU] == ti[j-1][INDCODUSU] && ti[j][COMPONENTE] < ti[j-1][COMPONENTE]; j--){
         swap(ti,j,j-1);
     }
+}
+
+//Auxiliares Ejercicio 8 muestraHomogenea
+
+int ingresos (hogar h, eph_i ti){
+    int res = 0;
+    int i = 0;
+    while (i<ti.size()){
+        if(h[HOGCODUSU]==ti[i][INDCODUSU] && ti[i][p47T]>-1){
+            res = res + ti[i][p47T];
+            i++;
+        } else {
+            i++;
+        }
+    }
+    return res;
+}
+
+void seleccionarMinimo (eph_h &th,eph_i ti, int i) {
+    int posMinimo = i;
+    for(int j = i; j < th.size (); j++) {
+        if(ingresos(th[posMinimo],ti) > ingresos(th[j],ti)) {
+            posMinimo = j;
+        }
+    }
+    swap (th,i,posMinimo);
+}
+
+vector <hogar> ordenadaPorIngresos(eph_h &th, eph_i ti){
+    int h = 0;
+    while (h < th.size()){
+        seleccionarMinimo(th,ti,h);
+        h++;
+    }
+    return th;
+}
+
+vector<hogar> eliminarIngresosRepetidos(eph_h th,eph_i ti){
+    //Deja la primera aparición de cada hogar con un cierto ingreso y elimina los hogares con ingresos
+    //repetidos
+    vector<hogar> sinRepetidos ={th[0]};
+    int h = 1;
+    while (h<th.size()){
+        if (ingresos(th[h],ti) != ingresos(sinRepetidos[sinRepetidos.size()-1],ti)){
+            sinRepetidos.push_back(th[h]);
+            h++;
+        } else {
+            h++;
+        }
+    }
+    return sinRepetidos;
 }
