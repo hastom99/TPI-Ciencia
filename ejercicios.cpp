@@ -87,7 +87,10 @@ void ordenarRegionYCODUSU (eph_h&  th, eph_i& ti) {
 
 // Implementacion Problema 8
 vector < hogar > muestraHomogenea( eph_h & th, eph_i & ti ){
+    //primero ordeno la tabla de hogares por orden de ingresos creciente
     th = ordenadaPorIngresos(th,ti);
+    //elimino los hogares con ingresos repetidos ya que estos no sirven para
+    //la muestra homogénea y siempre quiero una diferencia de ingresos > 0.
     th = eliminarIngresosRepetidos(th,ti);
     vector<hogar> muestraMaslarga = {};
     int i = 0;
@@ -123,12 +126,10 @@ vector < hogar > muestraHomogenea( eph_h & th, eph_i & ti ){
 void corregirRegion( eph_h & th, eph_i ti ) {
     int h = 0;
     while (h < th.size()){
-        if (th[h][REGION] == GBA){
+        if (th[h][REGION] == GBA) {
             th[h][REGION] = PAMPEANA;
-            h++;
-        } else {
-            h++;
         }
+            h++;
     }
 }
 
