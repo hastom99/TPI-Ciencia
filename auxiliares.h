@@ -18,3 +18,8 @@ vector <hogar> ordenadaPorIngresos(eph_h &th, eph_i ti);
 int ingresos (hogar h, eph_i ti);
 vector<hogar> eliminarIngresosRepetidos(eph_h $th,eph_i ti);
 #endif //SOLUCION_AUXILIARES_H
+
+int obtenerCantidadDePersonasPorCasa ( eph_h listaDePersonas, int hogcodusu );
+bool esUnHogarEnUnaCiudadMenor500 ( hogar datoHogar );
+bool esUnHogarHC(hogar datoHogar, eph_h listaDepersonas);
+int obtenerIndexEnBaseALaRegion(int region,  vector<pair<int,float>> data);

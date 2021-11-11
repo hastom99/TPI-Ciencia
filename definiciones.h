@@ -55,6 +55,10 @@ enum ItemInd {
 #define OCUPADO 1
 #define EN_ESTE_HOGAR 6
 
+#define DELTA_HOGAR_HC 0.00001
+#define INVERSION_DELTA_HOGAR_HC 100000
+
+
 // DEFINICIONES DE TIPO
 
 typedef int                         dato;
