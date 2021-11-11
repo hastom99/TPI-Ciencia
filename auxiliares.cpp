@@ -348,7 +348,7 @@ vector<hogar> eliminarIngresosRepetidos(eph_h th,eph_i ti){
     return sinRepetidos;
 }
 
-int obtenerCantidadDePersonasPorCasa ( eph_h listaDePersonas, int hogcodusu ) {
+int obtenerCantidadDePersonasPorCasa ( eph_i listaDePersonas, int hogcodusu ) {
     int personasEnEsaCasa = 0;
     for (int j = 0; j < listaDePersonas.size(); j++){
         if (listaDePersonas[j][INDCODUSU] == hogcodusu){
@@ -363,7 +363,7 @@ bool esUnHogarEnUnaCiudadMenor500 ( hogar datoHogar ) {
     return datoHogar[MAS_500] == 0 && datoHogar[IV1] == 1;
 }
 
-bool esUnHogarHC(hogar datoHogar, eph_h listaDepersonas){
+bool esUnHogarHC(hogar datoHogar, eph_i listaDepersonas){
     int cantidadDeHabitaciones = datoHogar[II2];
     int personasEnEsaCasa = obtenerCantidadDePersonasPorCasa(listaDepersonas,datoHogar[HOGCODUSU]);
     int ratio = (cantidadDeHabitaciones * 3) / personasEnEsaCasa;
@@ -378,4 +378,45 @@ int obtenerIndexEnBaseALaRegion(int region,  vector<pair<int,float>> data){
         }
     }
     return 0;
+}
+
+bool esEstrictamenteCreciente(vector<int> data){
+    for (int i = 0; i < data.size()-1;i++){
+        if (!(data[i+1] > data[i])){
+            return false;
+        }
+    }
+    return true;
+}
+
+float distanciaEuclideana(int latitud, int longitud, pair < int, int > centro){
+    return sqrtf(pow((centro.first - latitud),2)+pow((centro.second - longitud),2));
+}
+
+int obtenerIndexAQueDistanciaPertenece(float distancia, vector<int> rangosDeDistancias){
+    bool esLaPrimeraEjecucion = true;
+    int index = 0;
+    for(; index < rangosDeDistancias.size(); index++){
+        if (esLaPrimeraEjecucion){
+            if (distancia > 0 && distancia <= rangosDeDistancias[index]){
+                break;
+            }
+            esLaPrimeraEjecucion = false;
+        }else{
+            if (distancia > rangosDeDistancias[index-1] && distancia <= rangosDeDistancias[index]){
+                break;
+            }
+        }
+    }
+    return index;
+}
+
+int obtenerMaximoNumeroDeHabitacionesPorRegionQueSonCasas(eph_i listaDeHogares, int region){
+  int maxNumeroHabitacion = 0;
+  for (int i = 0; i < listaDeHogares.size(); i++){
+      if (listaDeHogares[i][IV2] > maxNumeroHabitacion && listaDeHogares[i][REGION] == region && listaDeHogares[i][IV1] == 1){
+          maxNumeroHabitacion = listaDeHogares[i][IV2];
+      }
+  }
+  return maxNumeroHabitacion;
 }

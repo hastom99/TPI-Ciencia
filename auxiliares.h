@@ -23,3 +23,8 @@ int obtenerCantidadDePersonasPorCasa ( eph_h listaDePersonas, int hogcodusu );
 bool esUnHogarEnUnaCiudadMenor500 ( hogar datoHogar );
 bool esUnHogarHC(hogar datoHogar, eph_h listaDepersonas);
 int obtenerIndexEnBaseALaRegion(int region,  vector<pair<int,float>> data);
+bool esEstrictamenteCreciente(vector<int> data);
+float distanciaEuclideana(int latitud, int longitud, pair < int, int > centro);
+int obtenerIndexAQueDistanciaPertenece(float distancia, vector<int> rangosDeDistancias);
+int obtenerMaximoNumeroDeHabitacionesPorRegionQueSonCasas(eph_i listaDeHogares,int region);
+bool valorRegionValido(int r);
