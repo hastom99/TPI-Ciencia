@@ -11,9 +11,17 @@ bool esEncuestaValida ( eph_h th, eph_i ti ) {
 
 // Implementacion Problema 2
 vector <int> histHabitacional ( eph_h th, eph_i ti, int region ) {
-	vector < int > resultado = {-1, -1, -1, -1, -1, -1};
-	
-	// TODO
+    vector < int > resultado(obtenerMaximoNumeroDeHabitacionesPorRegionQueSonCasas(th,region));
+
+    if(!esEncuestaValida(th,ti) && !valorRegionValido(region)){
+        return resultado;
+    }
+
+    for (int i = 0; i < th.size(); i++){
+        if (th[i][REGION] == region && th[i][IV1] == 1) {
+            resultado[th[i][IV2] - 1]++;
+        }
+    }
 	
 	return resultado;
 }
@@ -33,7 +41,11 @@ vector< pair < int, float > > laCasaEstaQuedandoChica ( eph_h th, eph_i ti ) {
                                     make_pair(0,0),
                                     make_pair(0,0),
                                     make_pair(0,0)};
-	// TODO
+
+    if(!esEncuestaValida(th,ti)){
+        return resp;
+    }
+
     int regionAnterior= -1;
     int regionActual = 0;
     int index = 0;
@@ -53,6 +65,7 @@ vector< pair < int, float > > laCasaEstaQuedandoChica ( eph_h th, eph_i ti ) {
             }
         }
       }
+
     for(int i = 0; i < resp.size(); i++){
         hogaresValidos = parHogaresValidosYCriticos[i].first;
         hogaresHC = parHogaresValidosYCriticos[i].second;
@@ -164,8 +177,20 @@ void corregirRegion( eph_h & th, eph_i ti ) {
 
 // Implementacion Problema 10
 vector < int > histogramaDeAnillosConcentricos( eph_h th, eph_i ti, pair < int, int > centro, vector < int > distancias ){
-	vector < int > resp = {};
-	
+	vector < int > resp (distancias.size());
+    if (!esEncuestaValida(th,ti)){
+        return resp;
+    }
+    if (!(distancias.size() > 0 && esEstrictamenteCreciente(distancias))){
+        return resp;
+    }
+    
+    int index = 0;
+
+    for(int i = 0; i < th.size(); i++){
+        index = obtenerIndexAQueDistanciaPertenece(distanciaEuclideana(th[i][HOGLATITUD],th[i][HOGLONGITUD],centro), distancias);
+        resp[index]++;
+    }
 	// TODO
 	
 	return resp;
