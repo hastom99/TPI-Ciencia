@@ -17,8 +17,7 @@ int cantHabitantes(hogar h, eph_i ti){
     for (int i=0; i < ti.size(); i++){
         if ( esSuHogar(h,ti[i]) ) cont++;
     }
-    return cont;
-}
+    return cont;}
 
 void swap (eph_h &th , int i, int j) {
     hogar h = th[i];
@@ -27,6 +26,7 @@ void swap (eph_h &th , int i, int j) {
 }
 
 //Auxiliares Ejercicio 1 esEncuestaValida
+
 bool esMatriz(vector<vector<int> > m){
     bool res = true;
     for(int i=0; i < m.size()-1; i++){
@@ -117,8 +117,7 @@ bool menosDe21MiembrosPorHogar(eph_h th, eph_i ti){
     for (int i=0; i < th.size(); i++){
         res = res && (cantHabitantes(th[i],ti) < 21);
     }
-    return res;
-}
+    return res;}
 
 bool individuoValido(individuo i){
     return (i[INDCODUSU] > 0) && (i[COMPONENTE] > 0) &&
@@ -179,9 +178,45 @@ bool esValida ( eph_h th, eph_i ti ){
                        !hayRepetidosI(ti) && !hayRepetidosH(th) && mismoAnioYTrimestre(ti,th) &&
                        menosDe21MiembrosPorHogar(th,ti) && cantidadValidaDormitorios(th) &&
                        valoresEnRangoI(ti) && valoresEnRangoH(th) );
-    return res;
+    return res;}
+
+//Auxiliares Ejercicio 2 histHabitacional
+
+int obtenerMaximoNumeroDeHabitacionesPorRegion(eph_i listaDeHogares, int region){
+    int maxNumeroHabitacion = 0;
+    for (int i = 0; i < listaDeHogares.size(); i++){
+        if (listaDeHogares[i][IV2] > maxNumeroHabitacion && listaDeHogares[i][REGION] == region){
+            maxNumeroHabitacion = listaDeHogares[i][IV2];
+        }
+    }
+    return maxNumeroHabitacion;
 }
+
+//Auxiliares Ejercicio 3 laCasaEstaQuedandoChica
+
+bool esUnHogarEnUnaCiudadMenor500 ( hogar datoHogar ) {
+    return datoHogar[MAS_500] == 0 && datoHogar[IV1] == 1;
+}
+
+bool esUnHogarHC(hogar datoHogar, eph_i listaDepersonas){
+    int cantidadDeHabitaciones = datoHogar[II2];
+    int personasEnEsaCasa = obtenerCantidadDePersonasPorCasa(listaDepersonas,datoHogar[HOGCODUSU]);
+    int ratio = (cantidadDeHabitaciones * 3) / personasEnEsaCasa;
+    return ratio < 1;
+}
+
+int obtenerIndexEnBaseALaRegion(int region,  vector<pair<int,float>> data){
+    int index = 0;
+    for (;index < data.size(); index++){
+        if (region == data[index].first){
+            break;
+        }
+    }
+    return index;
+}
+
 //Auxiliares Ejercicio 4 creceElTeleworkingEnCiudadesGrandes
+
 bool suHogarTieneEspaciosReservadosParaElTrabajo(individuo i, eph_h th){
     bool result = false;
     int k = 0;
@@ -196,8 +231,7 @@ bool suHogarTieneEspaciosReservadosParaElTrabajo(individuo i, eph_h th){
 }
 
 bool trabajaEnSuVivienda(individuo i,eph_h th){
-    return (i[PP04G] == 6 && suHogarTieneEspaciosReservadosParaElTrabajo(i, th));
-}
+    return (i[PP04G] == 6 && suHogarTieneEspaciosReservadosParaElTrabajo(i, th));}
 
 bool esDeCiudadGrande(individuo i,eph_h th){
     int k = 0;
@@ -236,8 +270,7 @@ int cantDeIndividuosTrabajandoEnSuVivienda(eph_h th, eph_i ti){
             i++;
         }
     }
-    return result;
-}
+    return result;}
 
 int cantDeIndividuosQueTrabajan(eph_h th, eph_i ti){
     int i = 0;
@@ -250,8 +283,7 @@ int cantDeIndividuosQueTrabajan(eph_h th, eph_i ti){
             i++;
         }
     }
-    return result;
-}
+    return result;}
 
 float proporcionTeleworking(eph_h th, eph_i ti){
     float trabajandoEnVivienda = cantDeIndividuosTrabajandoEnSuVivienda(th,ti);
@@ -260,8 +292,7 @@ float proporcionTeleworking(eph_h th, eph_i ti){
     if (trabajan != 0) {
         result = trabajandoEnVivienda/trabajan;
     }
-    return result;
-}
+    return result;}
 
 //Auxiliares Ejercicio 7 ordenarRegionYCODUSU.
 
@@ -329,8 +360,7 @@ vector <hogar> ordenadaPorIngresos(eph_h &th, eph_i ti){
         seleccionarMinimo(th,ti,h);
         h++;
     }
-    return th;
-}
+    return th;}
 
 vector<hogar> eliminarIngresosRepetidos(eph_h th,eph_i ti){
     //Deja la primera aparición de cada hogar con un cierto ingreso y elimina los hogares con ingresos
@@ -358,36 +388,7 @@ int obtenerCantidadDePersonasPorCasa ( eph_i listaDePersonas, int hogcodusu ) {
     return personasEnEsaCasa;
 }
 
-
-bool esUnHogarEnUnaCiudadMenor500 ( hogar datoHogar ) {
-    return datoHogar[MAS_500] == 0 && datoHogar[IV1] == 1;
-}
-
-bool esUnHogarHC(hogar datoHogar, eph_i listaDepersonas){
-    int cantidadDeHabitaciones = datoHogar[II2];
-    int personasEnEsaCasa = obtenerCantidadDePersonasPorCasa(listaDepersonas,datoHogar[HOGCODUSU]);
-    int ratio = (cantidadDeHabitaciones * 3) / personasEnEsaCasa;
-    return ratio < 1;
-}
-
-int obtenerIndexEnBaseALaRegion(int region,  vector<pair<int,float>> data){
-    int index = 0;
-    for (;index < data.size(); index++){
-        if (region == data[index].first){
-            return index;
-        }
-    }
-    return 0;
-}
-
-bool esEstrictamenteCreciente(vector<int> data){
-    for (int i = 0; i < data.size()-1;i++){
-        if (!(data[i+1] > data[i])){
-            return false;
-        }
-    }
-    return true;
-}
+//Auxiliares Ejercicio 10 histogramaDeAnillosConcentricos
 
 float distanciaEuclideana(int latitud, int longitud, pair < int, int > centro){
     return sqrtf(pow((centro.first - latitud),2)+pow((centro.second - longitud),2));
@@ -411,12 +412,32 @@ int obtenerIndexAQueDistanciaPertenece(float distancia, vector<int> rangosDeDist
     return index;
 }
 
-int obtenerMaximoNumeroDeHabitacionesPorRegionQueSonCasas(eph_i listaDeHogares, int region){
-  int maxNumeroHabitacion = 0;
-  for (int i = 0; i < listaDeHogares.size(); i++){
-      if (listaDeHogares[i][IV2] > maxNumeroHabitacion && listaDeHogares[i][REGION] == region && listaDeHogares[i][IV1] == 1){
-          maxNumeroHabitacion = listaDeHogares[i][IV2];
-      }
-  }
-  return maxNumeroHabitacion;
+//Auxiliares Ejercicio 11 quitarIndividuos
+
+bool coincideTerminosDeBusqueda(vector<dato> individuo, vector < pair < int, dato > >  busqueda){
+    int elemento = 0;
+    int dato = 0;
+    bool coincideLaBusqueda = true;
+
+    for(int i = 0; i < busqueda.size(); i++){
+        elemento = busqueda[i].first;
+        dato = busqueda[i].second;
+
+        if(!(individuo[elemento] == dato)){
+            coincideLaBusqueda = false;
+            break;
+        }
+    }
+
+    return coincideLaBusqueda;
+}
+
+bool yaExisteUnHogar(vector<dato> hogar, eph_h tablaHogares){
+    bool yaExiste = false;
+    for (int i = 0; i < tablaHogares.size(); i++){
+        if(hogar == tablaHogares[i]){
+            yaExiste = true;
+        }
+    }
+    return yaExiste;
 }
